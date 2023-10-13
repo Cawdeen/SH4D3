@@ -1,0 +1,124 @@
+{
+  "events": [
+    {
+      "type": "weekly",
+      "date": "2023-10-09T20:05:47.590Z",
+      "duration": "day",
+      "weekday": "monday",
+      "monthday": "",
+      "name": "trash day",
+      "location": "Mos Pelgo",
+      "hosttype": "rp",
+      "host": "Pelgo Utilities Commission",
+      "description": "Trash pickup is today in Mos Pelgo. Trash pickup happens at each of the major roads throughout town. If your house is on the edge of town, please have a droid drag your trash to the closest main road."
+    },
+    {
+      "type": "weekly",
+      "date": "2023-10-09T20:05:47.590Z",
+      "duration": "day",
+      "weekday": "wednesday",
+      "monthday": "",
+      "name": "Spice Rack Organization",
+      "location": "Mos Pelgo",
+      "hosttype": "rp",
+      "host": "SH4D3",
+      "description": "The droid SH4D3 is scheduled to organize a little bit at The Spice Rack today. Usually this just means throwing out old discarded items that arent needed or putting things away in cabinets that have been left on the floor."
+    },
+    {
+      "type": "weekly",
+      "date": "2023-10-09T20:05:47.590Z",
+      "duration": "day",
+      "weekday": "thursday",
+      "monthday": "",
+      "name": "Shadow Market deep cleaning",
+      "location": "Mos Pelgo",
+      "hosttype": "rp",
+      "host": "SH4D3",
+      "description": "The droid SH4D3 will be doing a deep clean of the Shadow Market today. Please make sure lose objects are off the counters and floors to make sweeping and dusting easier."
+    },
+    {
+      "type": "monthly",
+      "date": "2023-10-09T20:05:47.590Z",
+      "duration": "day",
+      "weekday": "",
+      "monthday": "15",
+      "name": "Street Sweeping",
+      "location": "Mos Pelgo",
+      "hosttype": "rp",
+      "host": "Pelgo Utilities Commission",
+      "description": "A monthly street cleaning will be happening today in Mos Pelgo. The sands of the main roads will be combed to removed trash and debri. City structures will all have their stoops and steps swept off."
+    },
+    {
+      "type": "monthly",
+      "date": "2023-10-09T20:05:47.590Z",
+      "duration": "day",
+      "weekday": "",
+      "monthday": "8",
+      "name": "Lair removal",
+      "location": "Mos Pelgo",
+      "hosttype": "rp",
+      "host": "Pelgo Utilities Commission",
+      "description": "A monthly lair removal will be happening throughout Mos Pelgo today. The Pelgo Utilities Commission will going around town clearing out any Womp Rat or Vynock lairs that citizens have reported over the past few weeks. Pelgo Slums will be done tomorrow."
+    },
+    {
+      "type": "monthly",
+      "date": "2023-10-09T20:05:47.590Z",
+      "duration": "day",
+      "weekday": "",
+      "monthday": "9",
+      "name": "Lair removal",
+      "location": "Pelgo Slums",
+      "hosttype": "rp",
+      "host": "Pelgo Utilities Commission",
+      "description": "A monthly lair removal will be happening throughout Pelgo Slums today. The Pelgo Utilities Commission will going around town clearing out any Womp Rat or Vynock lairs that citizens have reported over the past few weeks."
+    },
+    {
+      "type": "annual",
+      "date": "2023-10-01T00:00:00.000Z",
+      "duration": "month",
+      "weekday": "",
+      "monthday": "1",
+      "name": "Galactic Moon Festival",
+      "location": "Mos Eisley, Tatooine and Moenia, Naboo",
+      "hosttype": "server",
+      "host": "Jabba the Hutt",
+      "description": "In an effort to gain more support from the planets Naboo and Tatooine, Jabba the Hutt has decided to throw the annual Galactic Moon Festival so everyone can celebrate the horrifyingly awesome haunts of the season."
+    },
+    {
+      "type": "annual",
+      "date": "2023-07-23T00:00:00.000Z",
+      "duration": "month",
+      "weekday": "",
+      "monthday": "23",
+      "name": "Empire Day Celebrations",
+      "location": "Theed, Naboo",
+      "hosttype": "server",
+      "host": "The Galactic Empire",
+      "description": "Empire Day was the day that Sheev Palpatine declared himself Emperor of the First Galactic Empire, bringing an end to the Clone Wars as well as the Republic in 19 BBY. Following that year, Empire Day became a holiday marking the anniversary of the rise of the Empire."
+    },
+    {
+      "type": "annual",
+      "date": "2023-12-01T00:00:00.000Z",
+      "duration": "month",
+      "weekday": "",
+      "monthday": "1",
+      "name": "Life Day",
+      "location": "Endor",
+      "hosttype": "server",
+      "host": "the Wookies",
+      "description": "Traditionally celebrated on the Wookie home world Kashyyyk, Life Day is a time to reflect on the renewal of life and to remember those who have passed on."
+    },
+    {
+      "type": "annual",
+      "date": "2023-02-01T00:00:00.000Z",
+      "duration": "month",
+      "weekday": "",
+      "monthday": "1",
+      "name": "Ewok Festival of Love",
+      "location": "Endor",
+      "hosttype": "server",
+      "host": "the Ewoks",
+      "description": "Ewok Festival of Love is a celebrated each year to honor kinship and love between tribe members."
+    }
+  ]
+}

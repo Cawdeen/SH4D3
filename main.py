@@ -26,9 +26,9 @@ eventsList = []
 postMorning = time(8,0,0)
 reloadMorning = time(7,50,0)
 reloadNight = time(16,0,0)
-percent_alert_yes = 30 #percent (0-100) that will be yes for alert rolls
-min_alert_seconds = 18000 #min seconds to wait until an alert roll (18000 is 5hrs)
-max_alert_seconds = 54000 #max seconds to wait until an alert roll (54000 is 15hrs)
+percent_alert_yes = 100 #percent (0-100) that will be yes for alert rolls
+min_alert_seconds = 172000 #min seconds to wait until an alert roll (18000 is 5hrs, 172000 is 48hrs)
+max_alert_seconds = 216000 #max seconds to wait until an alert roll (54000 is 15hrs, 216000 is 60hrs)
 eventsToday = False
 announcementsToday = False
 intents = discord.Intents.all()
@@ -208,8 +208,8 @@ async def chat_reset_timer():
         await asyncio.sleep(60)
 
 #make the morning brief post
-async def post_morningbrief():
-    c_channel = client.get_channel(tempest_event_channelID)
+async def post_morningbrief(channel_ID):
+    c_channel = client.get_channel(channel_ID)
     events = await ingest_events()
     annouce = await ingest_announcements()
     weatherresponse = await weather_report()  # Call the function that makes the weather report
@@ -580,7 +580,7 @@ async def on_message(message):
         response = await create_alert()
         c_channel = client.get_channel(test_channelID)
         await c_channel.send(response)
-    elif 'tempest main testpost' in msg: #for sending to Tempest main without them seeing my prompt
+    elif 'tempest eventchannel testpost' in msg: #for sending to Tempest main without them seeing my prompt
         await post_morningbrief(tempest_event_channelID)
     elif 'tempest main justbrief' in msg: #for sending to Tempest main without them seeing my prompt
         await post_just_brief(tempest_event_channelID)
