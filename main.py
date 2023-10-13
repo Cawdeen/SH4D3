@@ -1,5 +1,4 @@
 import asyncio
-import openai
 import discord
 import random
 import ingest
@@ -8,46 +7,23 @@ import typing
 import os
 import re
 import io
-
+from querybot import Querybot
 from datetime import datetime, date, time, timedelta
 from llama_index.llms import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
 #for embedded RAG query
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
-from llama_index import ServiceContext, set_global_service_context
-from llama_index import StorageContext, load_index_from_storage
 
 from pytz import timezone
 from discord import app_commands
 
 TOKEN = os.getenv("TOKEN")
 
-########################## RAG stuff
+#Initialize the query engine
+querybot = Querybot()
 
-# define LLM
-llm = OpenAI(model="gpt-3.5-turbo", temperature=0.6, max_tokens=900)
-
-# configure service context
-service_context = ServiceContext.from_defaults(llm=llm, chunk_size=900, chunk_overlap=20)
-set_global_service_context(service_context)
-
-
-storage_context = StorageContext.from_defaults(persist_dir="index")#load index
-index = load_index_from_storage(storage_context)
-query_engine = index.as_query_engine(similarity_top_k=2)#build query engine
-chat_engine = index.as_chat_engine(chat_mode='context', similarity_top_k=2)#build chat engine
-chat_countdown = 0 #countdown timer to reset chat in minutes
-chat_countdown_max = 15
-############################# openai
-#for openai API
-openai.api_key = os.getenv("OPENAI_API_KEY")
-openai.Model.list()
-
-#basic who are you prompt
-startingprompt = "You are a droid named SH4D3 in a Star Wars video game. You're in Mos Pelgo, Tatooine. Be a little sarcastic, keep responses brief. Use emoji sparingly. Include some static and stuttering in your responses since you're a droid. "
 eventsList = []
-prompt = ''
 postMorning = time(8,0,0)
 reloadMorning = time(7,50,0)
 reloadNight = time(16,0,0)
@@ -62,12 +38,16 @@ test_channelID = 1156939619225587733 #Moss droid test channel
 tempest_main_channelID = 941946605479817218 #Tempest discord main channel
 tempest_event_channelID = 955640862166110249 #Tempest discord events channel
 
+
+#for commands?
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
+
 @client.event
 async def on_ready():
-    await tree.sync(guild=discord.Object(id=1123270531790155916)) #Moss server
+    querybot.load_context()
+    await tree.sync(guild=discord.Object(id=1123270531790155916)) #Moss server (this was for commands?)
     taskMorningBrief = asyncio.create_task(post_timer())
     taskContextTimer = asyncio.create_task(context_timer())
     taskChatReset = asyncio.create_task(chat_reset_timer())
@@ -80,7 +60,6 @@ async def on_ready():
 
 
 async def load_context():
-    global index, query_engine,chat_engine
     print('loading context')
     #clear the events file
     fp = open('data/events.txt', "w", encoding="utf-8")
@@ -96,14 +75,8 @@ async def load_context():
     
     #Create and save the index
     ingest.ingest()
-
-    #load the index
-    storage_context = StorageContext.from_defaults(persist_dir="index")
-    index = load_index_from_storage(storage_context)
-    query_engine = index.as_query_engine(similarity_top_k=2) #build the query engine
-    chat_engine = index.as_chat_engine(chat_mode='context', similarity_top_k=2)#build chat engine
-    print('finished loading context')
-
+    querybot.load_context
+    
 #random safety reminder
 async def pick_safety_reminder():
     myList = []
@@ -131,8 +104,8 @@ async def pick_weather():
     choice = random.choice(myList)
     return choice    
 
-async def weather_report(channel):
-    global startingprompt, eventsToday, announcementsToday
+async def weather_report():
+    global eventsToday, announcementsToday
     day = ''
     date = datetime.now()
     date = date.astimezone(timezone('US/Eastern'))
@@ -153,15 +126,15 @@ async def weather_report(channel):
         day = 'Sunday'
     weatherPrompt = await pick_weather()
     if announcementsToday == True and eventsToday == True: #big brief because both announce and events. Give shortrt weather report.
-        txt=startingprompt + 'SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, give us a unique but short weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
+        txt='SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, give us a unique but short weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
     elif announcementsToday == True and eventsToday == False:
-        txt=startingprompt + 'SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, give us a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
+        txt='SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, give us a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
     elif announcementsToday == False and eventsToday == True:
-        txt=startingprompt + 'SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, give us a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
+        txt='SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, give us a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
     else: #both are false give a nice long report
-        txt=startingprompt + 'SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, tell a funny story about your morning and give a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
+        txt='SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, tell a funny story about your morning and give a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
 
-    response = chat_engine.chat(txt)
+    response = querybot.chat(txt)
     return response
     #await c_channel.send(response)
 
@@ -173,30 +146,10 @@ async def weather_report(channel):
     # c_channel = client.get_channel(1156939619225587733) #Droid test channel
     # message = response['choices'][0]['text']
     # await c_channel.send(message)
-async def morning_brief(channel, events, annouce):
-    global startingprompt
-    day = ''
-    date = datetime.now()
-    date = date.astimezone(timezone('US/Eastern'))
-    daynum = date.weekday()
-    
-    if daynum == 0:
-        day = 'Monday'
-    elif daynum == 1:
-        day = 'Tuesday'
-    elif daynum == 2:
-        day = 'Wednesday'
-    elif daynum == 3:
-        day = 'Thursday'
+async def morning_brief(events, annouce):
 
-    elif daynum == 4:
-        day = 'Friday'
-    elif daynum == 5:
-        day = 'Saturday'
-    else:
-        day = 'Sunday'
     if events != '' and annouce != '': # there are both events and annoucements
-        txt=startingprompt + 'Now summarize these announcements and list any scheduled events, give details, say the host exactly as written, what day etc. Then say something fun to end your morning briefing:\n'+annouce+events
+        txt='Now summarize these announcements and list any scheduled events, give details, say the host exactly as written, what day etc. Then say something fun to end your morning briefing:\n'+annouce+events
     
     elif events != '' and annouce == '': #there are events, but no announcements
         txt = 'Now list any scheduled events, give details, say the host exactly as written, what day etc. Then say something fun to end your morning briefing:\n'+events
@@ -222,7 +175,7 @@ async def morning_brief(channel, events, annouce):
         txt = txt + 'Before you sign off, the following guild members wanted their messages mentioned in your morning brief: '+flagged_messages
     else:
         print('there are no flagged messages')
-    response = chat_engine.chat(txt)
+    response = querybot.chat(txt)
     return response
     #await c_channel.send(response)
 
@@ -249,28 +202,21 @@ async def random_alert_scheduler():
             print('alert not triggered')
         seconds_until_alert = random.randint(min_alert_seconds, max_alert_seconds) #generate new time
 
-
 #timer for counting down to reset chat
 async def chat_reset_timer():
-    global chat_countdown
     while True:
-        if chat_countdown > 1:
-            chat_countdown -= 1
-        elif chat_countdown == 1:
-            chat_countdown = 0
-            chat_engine.reset()
-            print('chat is now reset')
+        querybot.countdown()
         await asyncio.sleep(60)
 
 #make the morning brief post
-async def post_morningbrief(channelID):
+async def post_morningbrief():
     global chat_countdown, chat_countdown_max
     chat_countdown = chat_countdown_max #set the countdown timer to max
-    c_channel = client.get_channel(channelID)
+    c_channel = client.get_channel(tempest_event_channelID)
     events = await ingest_events()
     annouce = await ingest_announcements()
-    weatherresponse = await weather_report(channelID)  # Call the function that makes the weather report
-    briefresponse = await morning_brief(channelID, events, annouce)
+    weatherresponse = await weather_report()  # Call the function that makes the weather report
+    briefresponse = await morning_brief(events, annouce)
     await c_channel.send(weatherresponse)
     await c_channel.send(briefresponse)
 
@@ -306,8 +252,7 @@ async def post_timer():
           print('seconds to wait')
           print(seconds_until_target)
           await asyncio.sleep(seconds_until_target)  # Sleep until we hit the target time
-          event_channelID = 955640862166110249 #event channel in SHADE
-          await post_morningbrief(event_channelID) #post the whole morning brief to the event channel in SHADE
+          await post_morningbrief(tempest_event_channelID) #post the whole morning brief to the event channel in SHADE
         else:
           tomorrow = datetime.combine(now.date() + timedelta(days=1), time(0))
           seconds = (tomorrow - now).total_seconds()  # Seconds until tomorrow (midnight)
@@ -346,31 +291,14 @@ async def context_timer():
 
 #function to create a random alert
 async def create_alert():
-    global startingprompt, chat_countdown, chat_countdown_max
-    prompt = " Please give Mos Pelgo a short alert (1-3 sentence) message using this prompt: "
     myList = [] #array of strings
     fileR = open('rp/RandomAlert.txt', "r", encoding="utf-8")
     str = fileR.read()
     myList = str.splitlines(keepends=True)
     alert = random.choice(myList)
-    response = chat_engine.chat(startingprompt + prompt + alert)
-    chat_countdown = chat_countdown_max #set the countdown
-
+    prompt = " Please give Mos Pelgo a short alert (1-3 sentence) message using this prompt: " + alert
+    response = querybot.chat(prompt)
     return response
-
-
-#may not be needed, was for ingesting a few messages from guild info channel
-async def ingest_intro():
-    global prompt
-    channelID = 1060780901581193216
-    messageIDs = [1132115316189700128, 1132115237269672106, 1090124608646164581, 1060783286814785536]
-    
-    prompt = prompt + " Here is some background info: "
-    channel = client.get_channel(channelID)
-    for i in messageIDs:
-        message = await channel.fetch_message(i)
-        msg= message.content
-        prompt = prompt + "Next background info : " + msg
 
 #ingest flagged messages, and clear any older ones
 async def ingest_flagged_messages():
@@ -510,10 +438,10 @@ async def get_weekday(num):
 
 #for pulling scheduled events and listing them for the bot
 async def ingest_events():
-    global eventsToday, tempest_event_channelID
+    global eventsToday
     eventsToday = False #set to false by default
  
-    channel = client.get_channel(tempest_event_channelID)
+    channel = client.get_channel()
     server = channel.guild
     events = await server.fetch_scheduled_events()
     print('Number of events loaded: ')
@@ -640,80 +568,28 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global prompt, eventsList, startingprompt, chat_countdown
-    prompt = ''
+    global eventsList
     msg = message.content
-    
-    day = ''
-    date = datetime.now()
-    date = date.astimezone(timezone('US/Eastern'))
-    daynum = date.weekday()
-    if daynum == 0:
-        day = 'Monday'
-    elif daynum == 1:
-        day = 'Tuesday'
-    elif daynum == 2:
-        day = 'Wednesday'
-    elif daynum == 3:
-        day = 'Thursday'
-    elif daynum == 4:
-        day = 'Friday'
-    elif daynum == 5:
-        day = 'Saturday'
-    else:
-        day = 'Sunday'
-
-    #text_file = open("data/prompt.txt", "w")
-    #text_file.write(prompt.encode("utf-8"))
-    #text_file.close()
     isreply = await is_reply_to_droid(message)
-    if '<@1156937634384465960>' in msg or isreply == True:
-        # c_channel = message.channel
-        # await ingest_intro()
-        # await ingest_announcements()
-        # await ingest_events()
-        # msg = re.sub('<@1156937634384465960>', '', msg)
-        
-        # response = openai.Completion.create(
-        #     model="gpt-3.5-turbo-instruct",
-        #     prompt=prompt + 'SH4D3, Today is ' +day+ '. Respond to: '+msg,
-        #     max_tokens = 1000
-        #     )
-        # #c_channel = client.get_channel(1156939619225587733) #Droid test channel
-        # message = response['choices'][0]['text']
-        # await c_channel.send(message)
-        
+    if '<@1156937634384465960>' in msg or isreply == True:        
         c_channel = message.channel
-        if chat_countdown <= 0: #brand new chat, give it starting prompt
-            msg = re.sub('<@1156937634384465960>', '', startingprompt + 'Keep your responses very short. ' + msg)
-            print('new chat started')
-        else: # not a new chat, no starting prompt needed
-            msg = re.sub('<@1156937634384465960>', '', msg)
-        response = chat_engine.chat(msg)
+        msg = re.sub('<@1156937634384465960>', '', msg) #remove ping from prompt
+        response = querybot.chat(msg)
         await c_channel.send(response)
-        chat_countdown = chat_countdown_max #set chat countdown to 15 min each time someone talks
     elif 'testbrief' in msg:
-        test_channel = 1156939619225587733 #Droid test channel
-        await post_morningbrief(test_channel) #do the morning bried posts in the test channel
+        await post_morningbrief(test_channelID) #do the morning bried posts in the test channel
     elif 'testalert' in msg:
-        test_channelID = 1156939619225587733 #Droid test channel
         response = await create_alert()
         c_channel = client.get_channel(test_channelID)
         await c_channel.send(response)
     elif 'tempest main testpost' in msg: #for sending to Tempest main without them seeing my prompt
-        event_channelID = 955640862166110249
-        main_channelID = 941946605479817218
-        await post_morningbrief(event_channelID)
+        await post_morningbrief(tempest_event_channelID)
     elif 'tempest main justbrief' in msg: #for sending to Tempest main without them seeing my prompt
-        event_channelID = 955640862166110249
-        main_channelID = 941946605479817218
-        await post_just_brief(event_channelID)
+        await post_just_brief(tempest_event_channelID)
     elif 'testchannel justbrief' in msg: #for sending to testchannel
-        test_channel = 1156939619225587733 #Droid test channel 
-        await post_just_brief(test_channel)
-    elif 'testevents' in msg:
-        test_channel = 1156939619225587733 #Droid test channel  
-        briefresponse = await morning_brief(test_channel)
+        await post_just_brief(test_channelID)
+    elif 'testevents' in msg: 
+        briefresponse = await morning_brief(test_channelID)
         await c_channel.send(briefresponse)
     elif 'loadcontext now' in msg:
         await load_context()
