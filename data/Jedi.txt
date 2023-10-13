@@ -1,0 +1,197 @@
+The Restoration server features a completely new unlock system for the Jedi profession.
+Future Force-Sensitive Initiates will take part in a storyline that is tied to their unlock progression.
+
+Anyone can become a Jedi, even crafters and entertainers.
+
+
+Developer Q&A​
+"A is structured like this: It requires doing A, B and C things for everyone. Then there’s a pool of X things that have point values assigned and you have to hit the threshold of points + do the required things
+B: is the RNG
+C: is the collection."
+- Aconite
+"I will confirm we did not require the shards or gems collection for any part of unlock." - Aconite
+"We did say officially - no Legacy required." - Aconite
+"But there’s lots of paths to becoming force sensitive and lots of journeys along the way." - Aconite
+"No, Server Progression has no ties to any part of Jedi and never will." - Aconite
+Question: If we're only allowed one force sensitive character per account, does the limit become instated after any character on your account has their inciting event, or does the limit become instated after one character on the account has fully completed becoming a Jedi? (Worried that a character not intending to become a Jedi ends up being the one that has the inciting event.)
+
+Answer: You can have multiple characters on your account that are Force Sensitive. But you can only have one Jedi. The inciting incident does not make your character a Jedi. It starts your journey towards Force Sensitivity and you can later elect to become a Jedi after multiple phases, at which point you would lock your other characters from advancing further.
+
+Question: Since I haven’t seen this answered anywhere else I might as well ask… How will Jedi interact with space? Will a death in space cost a Jedi life? Will jedi be perma-overt in space? Will you be able to fly a ship or board a pob as a ghost?
+
+Answer: Death in Space will cost Jedi a life. Jedi will be overt in Space consistent with our existing explanation of the TEF and PEF systems, respectively. Jedi cannot enter Space while a ghost at this time but this may change in the future as the features are expanded.
+
+Question: will the "death counter" be like pre-cu where you could bypass it with something like the hero of tattooine ring?
+
+Answer: No. There is no way to bypass the death counter. Question: but why the lack of permadeath? Answer: We don't believe perma-death makes sense mechanically or in context. At the end of the day, players will spend hundreds of hours to unlock and train in the skills of a Force Sensitive/Jedi, and permanently taking that away serves no purpose but to punish players and discourage them from fully playing the game due to the constant overarching fear of losing their character they've worked so hard to attain. We balance this with the lives system we've talked a bit about already to ensure there is still a death penalty and we can control the overall population of Jedi on the server at once.
+
+Question: If a player unlocks on a crafter for FS crafting, but has no intention of any combat, is this person part of the active pool of ‘Jedi’ that can be up at any one time? Are they going to clog up the turnover on the queue system? Will they get murdered while sitting making their widgets of choice? Can you craft while blue glowy?
+
+Answer: Force Sensitive is different from Jedi. When we say Jedi in describing mechanics, we mean Jedi, that is, a Jedi Padawan or higher. If we mean Force Sensitive we will say that, as we’re very intentionally distinguishing the two. And no, you cannot craft while a Force Ghost (“blue glowly”).
+
+Question: Can I ask what "playing the game" means when people like Dom are equally clueless about the next step? I'm so Lost and confused.
+
+Answer: We mean that unlock has been intentionally very obfuscated to keep the mystery alive and slow the pace of Jedi entering the server, and it is to such an extent that we don’t anticipate players ever being fully able to figure out how unlock works. Consequently, we recommend just “playing the game” because intentionally trying to do every little thing that will unlock will drive you insane.
+"Well different parts are clues to different things, or multiple things, or no things at all." - Aconite
+"If I were you and I was thinking critically about jedi unlock collectively that most Collections related to jedi things may not trigger something directly but they probably don't hurt. *Hint*
+I hope there's enough context clues there for when this quote is posted in the wiki." - Aconite
+"Nothing in unlock requires you to be a specific faction or any faction at all. If content related to faction was awarded in some way, it would be equal for both factions." - Aconite
+"the entirety of unlock is designed to orient the player to the idea that they have a hard journey to partake in and must be secretive and very careful about everything they do" - Aconite
+
+
+Requirement A: Universal Requisites​
+Discovery of The Force will require exploration throughout the ground and space on group and solo adventures. Everything encountered along the way, from artifacts and horticulture to creatures and conclaves, will play a role in your saga.
+
+This step requires you to partake in different kinds of in-game activities, whether they are instanced dungeons, group activities, solo adventures, Badges, or Collections.
+
+Complete explanation by the developer:
+
+"To achieve A, you have to do all of the following:
+- Have a character that is at least 30 days old and has played for 24 hours of play time
+- Master any one of the advanced Professions
+- Master any of the secondary Professions (Pilot or Chronciler, not including Politician)
+- Complete the Jedi POIs collection, including the hidden POIs
+- Complete a threshold of points you earn by completing Badges/Collections which are weighted by category (there is a specific list, and it does not include any of the random highly difficult ones like gems, and I would imagine any related to Jedi would be valuable)
+- Complete a threshold of game content (e.g., themeparks, group activities like DWB/Corvette/Instances/Heroics), but we've already said Legacy is not included
+And weighting/point value of collections/Badges/content changes over time*" - Aconite
+"A has no RNG.
+
+It’s like this hypothetically
+
+Standard (universal) Requirement for everyone: master an advanced profession, earn 1 million credits
+
+Universal requirements Pool:
+Fishing collection - 10 points
+Slayer collection - 1 point
+Crafted 25 Melons - 5 points
+Danced on Every Planet - 5 points
+
+A is unlocked if you have done X activities to earn Y points (your points are >= Y) AND completed the standard requirements
+
+hypothetical example, there are substantially more things to earn points and several standard requirements " - Aconite
+
+Point values will change over time.
+"Also the point values change proportionate to what people do
+So if everyone does corvette during the next reset it might weight that less versus dwb for example" - Aconite
+
+Altars​
+These are hidden POIs which contribute to A requirement.
+
+While exploring the galaxy, a few players have stumbled upon so-called Altars. Being near these objects for a certain period of time (which can be up to 30–45 minutes) grants you a hidden badge.
+
+
+This is how these Altars look like.
+
+9LuJ0LK.jpg
+
+Altars can be found on each planet except Dantooine. On Dantooine, you will find ancient ruins with no altar.
+Below is a list of these ruins and their locations. Utilize the attached document to add all Jedi POIs to the datapad at once.
+
+Tip: Write down every Altar Badge after you add it to the collection. To check if the collection is complete, navigate to the Collections Tab and uncheck "Show Completed", If the "Jedi Exploration" line is not showing up, then you have successfully completed the Altar and "Jedi Exploration" collections.
+
+These altars are a hidden part of the Jedi POI Exploration collection/badge. To make tracking it easier download and drop this file into your SWG Resto folder, then in-game type "/load JediPOI.txt", once you get the confirmation type "/AddWPs". Make sure you have room in your datapad for 15 waypoints. As you visit each location, delete the waypoints once the badge pops.
+
+Planet	Waypoint	Description
+Dantooine	/way Dantooine 1930 -4745	Ancient Ruins of what appears to be a Jedi Temple.
+Corellia	/way Corellia -2482 7644	On top of the hill in northwest area of the map
+Tatooine	/way Tatooine -7588 -4453	In the hills not too far from Jabbas Palace
+Naboo	/way Naboo 2730 -803	In the mountain reigon near Dee'ja Peak
+Lok	/way Lok -2030 7568	In the northwest area near the starport
+Rori	/way Rori 6123 48	On small hill near a big tree in the east region of the map
+Talus	/way Talus 4288 864	In the crater behind Lost Village of Durbin POI
+Dathomir	/way Dathomir 88 6559	On the skew side of the shore
+Endor	/way Endor -3295 7484	On top of the hill in the northwest region of the map
+Yavin 4	/way Yavin 4 -7500 6867	In the shallow water in the northwest region of the map
+Kashyyyk	/way Kachirho 876 507	Underneath a waterfall at the dead end
+Mustafar	/way Mustafar -3383 -119	Underneath a lava waterfall on the West side of the planet
+
+Requirement B: Inciting Incident​
+deer.png
+To be benighted, it appears to be pure luck or a near miss, but to the enlightened, it is the crux juncture signifying the first spark of discovery for a latent power that has always existed deep within. This specific moment of discovery, different for every being, is precipitated when you need it most and denotes the start of a new journey towards the force.
+
+"...There are inciting incidents involving Crafting, but a majority involve Combat, so it is more difficult to unlock on a crafter-only character. But it possible to unlock on any character, or become force sensitive on multiple, but you can only have one Jedi. The best strategy is likely not to get too attached to any one specific character becoming the force sensitive one if your goal is just to become a Jedi, and instead to play the game as normal on all of your characters until you have an inciting incident, in which case you can move forward with that character on the path to become a Jedi." - Aconite
+
+The page above should help with understanding this requirement.
+But here's a good summary made by the player:
+"Completely randomly activated. You basically have to perform a certain action to incite but there are a lot of variables* as to when this gets triggered such as planet and night/day. Completely down to luck and being in the right place at the right time doing the right thing." - Banth
+
+Developer view on the Inciting Incident:
+"The Inciting Incident system was created to address the challenge of balancing the immersion of the original Star Wars timeline with the desire to incorporate Jedi as a significant aspect of the game. In the timeline of the game, there weren't any Jedi around searching out younglings, and anyone knowledgeable enough to recognize it in you early on was being silenced by the Empire. Our solution was to develop a system that aligns with the lore, while also allowing us to regulate how frequently players can access Jedi.
+
+We don't view Jedi as an entitlement that any player can achieve, to ensure that it maintains its unique and significant place in the game. We have seen that the system has been successful in making the Force experience on Restoration unique and thrilling, and we're very excited about what's coming next in the Jedi unlock process.
+
+A new insight on inciting: We've previously shared that faction plays a role in unlock, but many have questioned how that works if you aren't a declared faction. We thought of that! In that case, the game aligns you with whatever faction you are in better standing with (or randomly, if you're truly neutral). How this plays into your story is for you to find out. Does the heart of an underdog beat within your chest, or does the thrill of power and dominion fuel your spirit?"
+
+-ornj (Developer)
+
+*Variables - Variables are specific properties of Inciting Incident.
+There are 7 variables involved in the inciting incident, you have to meet all 7 variables to have the incident happen.
+
+Examples of Variables:
+Planet Time(notice that each planet has different time cycle)
+Certain Action(death, purchase of an item, Crafting etc.)
+There are around 43 possible inciting incidents.
+The set of variables and your trigger event rotates every 28-31 days.
+
+Getting an Inciting Incident​
+There is no guide on how to get an Inciting Incident. However, there are a few tips that may prove useful.
+To have the possibility of rolling an Inciting incident, your character has to be 10 days old.
+Inciting Incident resets every 28-31 days.
+Inciting Incident can occur in space and on any planet, including Mustafar and Kashyyyk.
+Your currently mastered Professions will influence the Inciting Incident. It is no longer possible for a Combat character to have a Crafting-related Inciting Incident.
+However, there are social and other "general" incites that anyone can have. More information on those is in the
+"List of Possible Inciting Incidents" section of the wiki.
+"Each inciting incident now has an associated probability such that there is chance in whether or not the activity itself triggers the incite regardless of having met the other confounding variables.
+For example, if your inciting incident is to change the control of a factional zone, because this is a rarer activity, we've set a much higher probability to achieving the incite, whereas if your inciting incident is to chat with another player, the probability would be very low because that is a very common activity.
+This chance does not affect the other variables (e.g., the factional status of a character needing to be X) at the time the incident is triggered." - Aconite
+Neutral players can have Inciting Incident as well, read the following quote:
+"A new insight on inciting: We've previously shared that faction plays a role in unlock, but many have questioned how that works if you aren't a declared faction. We thought of that! In that case, the game aligns you with whatever faction you are in better standing with (or randomly, if you're truly neutral)." - ornj
+
+
+
+
+Our guiding creed for the process to become a Jedi is consistent with the original ideology we shared before:
+
+The journey to becoming a Jedi in the era of the Galactic Empire poses unique challenges as a thriving Force Sensitive community to take in a youngling for training is nonexistent. Consequently, the process of becoming a Jedi will be a demanding, stimulating, and individualized experience for every inhabitant of the Star Wars Galaxy. Discovery of The Force will require exploration throughout the ground and space on group and solo adventures. Everything encountered along the way, from artifacts and horticulture to creatures and conclaves, will play a role in your saga.
+
+We’re pleased to share unlocking Jedi will take place over 6 phases, featuring unique unlock mechanics, completely new and custom storylines and content, as well as original functionality and utility for the profession as a whole. While we’re keeping the majority of our unlock phases secret, we’re excited to share details of the first phase of the unlock process: The Inciting Incident.
+
+Phase 1: The Inciting Incident​
+
+To the benighted, it appears to be pure luck or a near miss, but to the enlightened, it is the crux juncture signifying the first spark of discovery for a latent power that has always existed deep within. This specific moment of discovery, different for every being, is precipitated when you need it most and denotes the start of a new journey towards the force.
+
+Phase 1: Insights From the Development Team:​
+
+One of the challenges posed by our timeline during the era of the Galactic Civil War is that there are not any forms of order and structure to discovering force sensitive younglings, making it likely many would go into their adulthood without knowing they were force sensitive. Where moments in their life were more likely to be seen as a lucky guess or correct decision, they were really indicative of force sensitivity. It isn’t until some moment in time that demands they call upon powers they didn’t even know they had, such as Rey finding the Lightsaber (discovery) or Grogu and The Mudhorn (danger), triggers an epiphany that there is more to them than they know.
+
+How this translates to the game more specifically is that each character will have a unique moment that will act as their inciting incident. There are more than 50 possible base incident types when, if triggered, you’ll call upon the force for help (for example, finding a special object, being close to death, healing someone, dodging a missile in space, or lucky experimentation with crafting) that could be your inciting incident multiplied by other confounding variables which make thousands of unique possibilities for what the inciting incident for each character you have might be. Once you encounter your inciting incident, you’ll move forward to the procuring proclivity phase.
+
+We’ve previously noted that certain aspects of character progression already achieved by players, such as meeting certain accomplishments will be retroactively credited towards a character’s unlock journey. This remains the case, however, the inciting incident will be a unique start to the unlock journey that will only be available to trigger once 1.0 is released. Players will have an in-game means to track their progress towards unlock which we’ll share more about in a future Developer Diary.
+
+How “unique” will the Jedi unlock process be?​
+There are components of the unlock process that will be unique to the extent that it is possible only 1 in 5000 players will experience exactly the same event sequence. Other components will be exactly the same for everyone. The biggest places of variance will be in the inciting incident and subsequent phases, as well as your larger storyline path based on your choices towards the light or dark side of the force, which we expand on a bit more later.
+How will you limit the population of Jedi so that the server does not become overrun with Jedi which isn’t fictionally realistic or fun?
+There are three primary mechanisms that limit the population of Jedi:
+Unlock Randomization - Because unlocking Jedi is not a uniform experience for every player, and because there is significant randomization in the requisites to unlock, players cannot easily identify a consistent path to becoming a Jedi.
+Unlock Gating - Different phases of the unlock process have time and place gating that require additional playtime and/or play locations and content playthrough so it won’t be possible to make a linear advancement to complete the unlock process quickly.
+Re-Entry Gating - After death, Jedi become Force Ghosts and aren’t able to immediately resume combat or other non-social aspects of the game. For more information on this mechanic, see “What happens when a Jedi dies and how do lives work?”
+What is Jedi Visibility and how does it work?​
+A Jedi can become “visible” if they engage in factional PvP or if they are observed by NPCs in the world doing anything that would raise suspicion about their force sensitivity, such as using force powers or wielding a lightsaber. Depending on the friendliness of the area and the about of visibility you have, the NPCs may take a variety of actions, such as attacking you, creating a bounty against you, adding a Temporary Enemy Flag against you, or even calling Lord Vador’s Inquisitors to capture or kill you.
+
+Visibility will decay over time while a Jedi is online and is either behaving incognito while in front of others or who has reclused away from municipalities until rumors of their presence have dissipated.
+
+Can Jedi just hide in private structures if they become visible and have a TEF or active bounty?​
+Jedi will have a variety of abilities to evade detection and reduce their visibility should they be in danger. Nevertheless, highly skilled Bounty Hunters will also have tools and resources to track down a structure where a Jedi may be hiding and, with the help of other professions, may break into or draw the Jedi out of such places.
+
+How will Temporary and Permanent Enemy Flagging (TEF/PEF) work for Jedi?​
+A Temporary Enemy Flag (“TEF”) is a relationship between a player and one or more players/entities that makes them attackable in Player versus Player (PvP) combat. For example, player bounties create a temporary enemy flag between the Bounty Hunter and the Target Player.
+
+A player may advance through the Force Sensitive and Jedi Padawan profession trees before any changes to TEF logic will apply. However, once a player elects to become a Jedi Knight, they will move from temporary to permanent enemy flagging (PEF), which means they will always be overt and attackable in a Player versus Player context, regardless of if they have triggered any temporary flagging logic.
+
+Who can attack Jedi when they have a TEF/PEF?​
+When a Jedi becomes a Jedi Knight, they will elect a faction, and their corresponding factional identity (Rebel or Imperial) will control who they become flagged as an enemy to (that of the opposing faction).
+
+What are Jedi Lives and what happens when a Jedi dies?​
+Jedi will have a number of lives assigned to them. For example, a Jedi Knight may have five lives. Once the Jedi Knight has died five times, they will become a Force Ghost and unable to engage in combat or any other character mechanics, limiting their in-game engagement to only social interactions with others.
+
+Force Ghosts, while online, will enter a global queue to request to return to a normal Jedi status. To exit the queue, they must satisfy two conditions: (1) a global cooldown period which changes based on the playtime and rank of the Jedi, as well as (2) a global limitation on the number of Jedi who can be alive and active in the galaxy at once. We do not intend to publish the Jedi live-to-death ratios at this time as we will likely adjust them over time based on our observations of these metrics once the system is live.
