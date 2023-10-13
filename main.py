@@ -9,11 +9,10 @@ import re
 import io
 from querybot import Querybot
 from datetime import datetime, date, time, timedelta
-from llama_index.llms import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
 #for embedded RAG query
-OpenAI.api_key = os.getenv("OPENAI_API_KEY")
+
 
 from pytz import timezone
 from discord import app_commands
@@ -75,7 +74,7 @@ async def load_context():
     
     #Create and save the index
     ingest.ingest()
-    querybot.load_context
+    querybot.load_context()
     
 #random safety reminder
 async def pick_safety_reminder():
@@ -134,7 +133,7 @@ async def weather_report():
     else: #both are false give a nice long report
         txt='SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, tell a funny story about your morning and give a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
 
-    response = querybot.chat(txt)
+    response = querybot.handle_chat_request(txt)
     return response
     #await c_channel.send(response)
 
@@ -175,7 +174,7 @@ async def morning_brief(events, annouce):
         txt = txt + 'Before you sign off, the following guild members wanted their messages mentioned in your morning brief: '+flagged_messages
     else:
         print('there are no flagged messages')
-    response = querybot.chat(txt)
+    response = querybot.handle_chat_request(txt)
     return response
     #await c_channel.send(response)
 
@@ -210,8 +209,6 @@ async def chat_reset_timer():
 
 #make the morning brief post
 async def post_morningbrief():
-    global chat_countdown, chat_countdown_max
-    chat_countdown = chat_countdown_max #set the countdown timer to max
     c_channel = client.get_channel(tempest_event_channelID)
     events = await ingest_events()
     annouce = await ingest_announcements()
@@ -297,7 +294,7 @@ async def create_alert():
     myList = str.splitlines(keepends=True)
     alert = random.choice(myList)
     prompt = " Please give Mos Pelgo a short alert (1-3 sentence) message using this prompt: " + alert
-    response = querybot.chat(prompt)
+    response = querybot.handle_chat_request(prompt)
     return response
 
 #ingest flagged messages, and clear any older ones
@@ -441,7 +438,7 @@ async def ingest_events():
     global eventsToday
     eventsToday = False #set to false by default
  
-    channel = client.get_channel()
+    channel = client.get_channel(tempest_event_channelID)
     server = channel.guild
     events = await server.fetch_scheduled_events()
     print('Number of events loaded: ')
@@ -574,7 +571,8 @@ async def on_message(message):
     if '<@1156937634384465960>' in msg or isreply == True:        
         c_channel = message.channel
         msg = re.sub('<@1156937634384465960>', '', msg) #remove ping from prompt
-        response = querybot.chat(msg)
+        response = querybot.handle_chat_request(msg)
+        print(response)
         await c_channel.send(response)
     elif 'testbrief' in msg:
         await post_morningbrief(test_channelID) #do the morning bried posts in the test channel
