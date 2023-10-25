@@ -8,6 +8,7 @@ import os
 import re
 import io
 from querybot import Querybot
+from calendarEvents import CalendarEvents
 from datetime import datetime, date, time, timedelta
 from dotenv import load_dotenv
 load_dotenv()
@@ -21,6 +22,7 @@ TOKEN = os.getenv("TOKEN")
 
 #Initialize the query engine
 querybot = Querybot()
+calendarEvents = CalendarEvents()
 
 eventsList = []
 postMorning = time(8,0,0)
@@ -31,17 +33,19 @@ min_alert_seconds = 172000 #min seconds to wait until an alert roll (18000 is 5h
 max_alert_seconds = 216000 #max seconds to wait until an alert roll (54000 is 15hrs, 216000 is 60hrs)
 eventsToday = False
 announcementsToday = False
+postbrieftoggle = True
 intents = discord.Intents.all()
 
 test_channelID = 1156939619225587733 #Moss droid test channel
 tempest_main_channelID = 941946605479817218 #Tempest discord main channel
 tempest_event_channelID = 955640862166110249 #Tempest discord events channel
+tempest_trade_channelID = 959176685247410177 #Tempest trade channel
+mexhus_channelID = 1084844864967020644 #mexhus channel
 
 
 #for commands?
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
-
 
 @client.event
 async def on_ready():
@@ -125,13 +129,13 @@ async def weather_report():
         day = 'Sunday'
     weatherPrompt = await pick_weather()
     if announcementsToday == True and eventsToday == True: #big brief because both announce and events. Give shortrt weather report.
-        txt='SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, give us a unique but short weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
+        txt='SH4D3, Today is ' +day+ '. Give us a unique but short weather forecast based on this: \n' + weatherPrompt + '\n'
     elif announcementsToday == True and eventsToday == False:
-        txt='SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, give us a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
+        txt='SH4D3, Today is ' +day+ '. Give us a unique weather forecast based on this: \n' + weatherPrompt + '\n'
     elif announcementsToday == False and eventsToday == True:
-        txt='SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, give us a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
+        txt='SH4D3, Today is ' +day+ '. Give us a unique weather forecast based on this: \n' + weatherPrompt + '\n'
     else: #both are false give a nice long report
-        txt='SH4D3, Today is ' +day+ '. Greet the citizens of Mos Pelgo, tell a funny story about your morning and give a unique weather forecast based on this: \n' + weatherPrompt + '\n After the weather report dont say goodbye or anything yet.'
+        txt='SH4D3, Today is ' +day+ '. Tell a funny story about your morning and give a unique weather forecast based on this: \n' + weatherPrompt + '\n'
 
     response = querybot.handle_chat_request(txt)
     return response
@@ -148,20 +152,20 @@ async def weather_report():
 async def morning_brief(events, annouce):
 
     if events != '' and annouce != '': # there are both events and annoucements
-        txt='Now summarize these announcements and list any scheduled events, give details, say the host exactly as written, what day etc. Then say something fun to end your morning briefing:\n'+annouce+events
+        txt='Summarize these announcements and list any scheduled events, give details, say the host exactly as written, what day etc. Then say something fun to end your morning briefing:\n'+annouce+events
     
     elif events != '' and annouce == '': #there are events, but no announcements
-        txt = 'Now list any scheduled events, give details, say the host exactly as written, what day etc. Then say something fun to end your morning briefing:\n'+events
+        txt = 'List any scheduled events, give details, say the host exactly as written, what day etc. Then say something fun to end your morning briefing:\n'+events
         #reminder = await pick_safety_reminder()
         #txt = txt + reminder
     
     elif events == '' and annouce != '': # there are no events, but there are annoucements
-        txt = 'Now say something like "There are no guild scheduled events yet, but here are the latest annoucements" then tell us about the following and end your morning brief: \n' + annouce
+        txt = 'Say something like "There are no guild scheduled events for today, but here are the latest annoucements" then tell us about the following and end your morning brief: \n' + annouce
         #story = await pick_story()
         #txt = txt + story
     
     else: #there are niether events nor annoucements
-        txt = 'Now say something like "We have no scheduled guild events, but let me tell you whats happening around town... " then tell us about the following and end your morning brief: \n'
+        txt = 'Say something like "We have no scheduled guild events for today, but let me tell you whats happening around town... " then tell us about the following and end your morning brief: \n'
         story = await pick_story()
         txt = txt + story + '\n'
         #temporarily commenting out safety reminder as they are kinda corny
@@ -171,7 +175,7 @@ async def morning_brief(events, annouce):
     flagged_messages = await ingest_flagged_messages() #check for flagged messages
     if flagged_messages != '': #if we have flagged messages
         print('there are flagged messages')
-        txt = txt + 'Before you sign off, the following guild members wanted their messages mentioned in your morning brief: '+flagged_messages
+        txt = txt + 'The following guild members wanted their messages mentioned in your morning brief, but keep it short: '+flagged_messages
     else:
         print('there are no flagged messages')
     response = querybot.handle_chat_request(txt)
@@ -207,15 +211,27 @@ async def chat_reset_timer():
         querybot.countdown()
         await asyncio.sleep(60)
 
+
+
 #make the morning brief post
-async def post_morningbrief(channel_ID):
-    c_channel = client.get_channel(channel_ID)
-    events = await ingest_events()
-    annouce = await ingest_announcements()
-    weatherresponse = await weather_report()  # Call the function that makes the weather report
-    briefresponse = await morning_brief(events, annouce)
-    await c_channel.send(weatherresponse)
-    await c_channel.send(briefresponse)
+async def post_morningbrief(channel):
+    global postbrieftoggle
+    c_channel = client.get_channel(channel)
+    if postbrieftoggle == True:
+        print('getting weather response')
+        weatherresponse = await weather_report()  # Make our weather report
+        print('ingesting events and announcements')
+        events = await ingest_events() #pull scheduled events from discord
+        annouce = await ingest_announcements() #pull the latest announcements
+        print('getting morning brief response')
+        briefresponse = await morning_brief(events, annouce) #make our brief including announcements, events
+        reformat_prompt = 'Rewrite this morning brief so the topics are in a different order. Keep it under 250 words: \n'+str(weatherresponse)+'\n'+str(briefresponse)
+        print('getting reformatted morning brief from openAI')
+        reformat_response = querybot.handle_chat_request(reformat_prompt)
+        await c_channel.send(reformat_response)
+    else:
+        print('Brief is turned off.')
+        postbrieftoggle = True
 
 #make the morning brief post
 async def post_just_brief(channelID):
@@ -244,16 +260,18 @@ async def post_timer():
 
         if target != midnight:
           
-          target_time = datetime.combine(now.date(), target) 
-          seconds_until_target = (target_time - now).total_seconds()
-          print('seconds to wait')
-          print(seconds_until_target)
-          await asyncio.sleep(seconds_until_target)  # Sleep until we hit the target time
-          await post_morningbrief(tempest_event_channelID) #post the whole morning brief to the event channel in SHADE
+            target_time = datetime.combine(now.date(), target) 
+            seconds_until_target = (target_time - now).total_seconds()
+            print('seconds to wait')
+            print(seconds_until_target)
+            await asyncio.sleep(seconds_until_target)  # Sleep until we hit the target time
+
+            post_morningbrief(tempest_event_channelID)
+            #await post_morningbrief(tempest_event_channelID, reformat_response) #post the whole morning brief to the event channel in SHADE
         else:
-          tomorrow = datetime.combine(now.date() + timedelta(days=1), time(0))
-          seconds = (tomorrow - now).total_seconds()  # Seconds until tomorrow (midnight)
-          await asyncio.sleep(seconds)   # Sleep until tomorrow and then the loop will start
+            tomorrow = datetime.combine(now.date() + timedelta(days=1), time(0))
+            seconds = (tomorrow - now).total_seconds()  # Seconds until tomorrow (midnight)
+            await asyncio.sleep(seconds)   # Sleep until tomorrow and then the loop will start
 
 #timer for morning brief
 async def context_timer():
@@ -323,9 +341,8 @@ async def ingest_flagged_messages():
         # getting elements in between
         for idx in range(idx1 + len(sub1) + 1, idx2):
             datestr = datestr + i[idx]
-        print(datestr)
         datetime_object = datetime.strptime(datestr, '%Y-%m-%d %H-%M-%S')#create datetime object from string
-        backdate = today - timedelta(days=2) # only accept 2 day old messages
+        backdate = today - timedelta(days=1) # only accept 2 day old messages
         if datetime_object < backdate: # message is old
             myList.remove(i) # delete it
             print('removed old message from flagged messages')
@@ -390,6 +407,26 @@ async def add_flagged_message(message):
     fileW.write(all_messages)
     fileW.close()
 
+#test function to scrape the main chat messages and dump into a text file
+async def ingest_channel(cID):
+    channelID = cID
+    channel = client.get_channel(channelID)
+    backdate = datetime.utcnow() - timedelta(days = 1)
+    messages = [message async for message in channel.history(limit=100, after=backdate, oldest_first=True)]
+    combined_text = ''
+    for i in messages:
+        combined_text = combined_text + '\n'
+        user = i.author
+        nickname = user.display_name
+        combined_text = combined_text + nickname + ' says: '
+        txt = i.content + '\n'
+        combined_text = combined_text + txt
+    fileW = open('rp/mainMessages.txt', "w", encoding="utf-8")
+    #save the messages back to txt and concat all messages into one str
+
+    fileW.write(combined_text)
+    fileW.close()
+
 #ingest the announcements channel
 async def ingest_announcements():
     global announcementsToday
@@ -400,9 +437,7 @@ async def ingest_announcements():
     messages = [message async for message in channel.history(limit=1, after=backdate, oldest_first=False)]
     combined_text = ''
     for i in messages:
-        print(i)
-        print(i.content)
-        combined_text = combined_text + 'Announcement-\n'
+        combined_text = combined_text + '\n'
         user = i.author
         nickname = user.display_name
         combined_text = combined_text + nickname + ' says: \n'
@@ -481,12 +516,44 @@ async def ingest_events():
             eventsList.append(eventStr) #add to todays events (strings)
     if len(eventsList) > 0: #if we have events today
         todaydate = datetime.utcnow()
-        eventListStr = 'Todays Date: '+ todaydate.strftime("%A, %b %d") + '\nWhat are the scheduled events? These are the upcoming scheduled events for the guild:\n'
+        eventListStr = 'Todays Date: '+ todaydate.strftime("%A, %b %d") + '\nThese are the upcoming scheduled events for the guild:\n'
         for i in eventsList:
             eventListStr = eventListStr + i + '\n'
     else:
         eventListStr = '' #no events today, return empty string
+    
+    #get active events from calendar
+    #uncomment out below when ready for calendar events!
+
+    act_events_str = calendarEvents.event_milestone()
+
+    # active_events = calendarEvents.get_active_events()
+    # if len(active_events) > 0:
+    #     act_events_str = 'Calendar events: \n'
+    #     for i in active_events:
+    #         name = 'Calendar event name: '+i.name + '\n'
+    #         description = 'Calendar event description: '+i.description + '\n'
+    #         startdate = 'Calendar event start time: '+str(i.startdatetime) + '\n'
+    #         duration = 'Calendar event duration: '+i.duration + '\n'
+    #         host = 'Calendar event host: '+i.host + '\n\n'
+    #         act_events_str = act_events_str + name + description + duration + host + startdate
+    # eventListStr = eventListStr + act_events_str
+
+    if act_events_str != '':
+        eventListStr = eventListStr + act_events_str #add the calendar events to the guild scheduled events
     return eventListStr
+
+async def post_shutdown_message(channel):
+    c_channel = client.get_channel(channel)
+    shutdown_prompt = 'In one or two sentences, write a response that says you are shutting down for maintenance.'
+    shutdown_response = querybot.handle_chat_request(shutdown_prompt)
+    await c_channel.send(shutdown_response)
+
+async def post_startup_message(channel):
+    c_channel = client.get_channel(channel)
+    shutdown_prompt = 'In one or two sentences, write a response that says you have been turned back on and maintenance is finished. You feel a bit odd'
+    shutdown_response = querybot.handle_chat_request(shutdown_prompt)
+    await c_channel.send(shutdown_response)
 
 async def is_reply_to_droid(m):
     channel = m.channel
@@ -561,36 +628,74 @@ async def on_raw_reaction_remove(payload):
             await remove_flagged_message(combinedText)
         else:
             return
-
+        
+class Poster: #class for asynchronous (non-blocking) counter
+    def __init__(self, callback, channelID):
+        self._callback = callback
+        self._task = asyncio.ensure_future(self._job())
+        print("init timer done")
+    async def _job(self):
+        try:
+            await asyncio.sleep(self._interval) #do something
+            await self._callback(self)
+        except Exception as ex:
+            print(ex)
+    def cancel(self):
+        self._ok = False
+        self._task.cancel()
 
 @client.event
 async def on_message(message):
-    global eventsList
+    global eventsList, postbrieftoggle
     msg = message.content
+    c_channel = message.channel
     isreply = await is_reply_to_droid(message)
     if '<@1156937634384465960>' in msg or isreply == True:        
-        c_channel = message.channel
         msg = re.sub('<@1156937634384465960>', '', msg) #remove ping from prompt
         response = querybot.handle_chat_request(msg)
         print(response)
         await c_channel.send(response)
-    elif 'testbrief' in msg:
-        await post_morningbrief(test_channelID) #do the morning bried posts in the test channel
-    elif 'testalert' in msg:
-        response = await create_alert()
-        c_channel = client.get_channel(test_channelID)
-        await c_channel.send(response)
-    elif 'tempest eventchannel testpost' in msg: #for sending to Tempest main without them seeing my prompt
-        await post_morningbrief(tempest_event_channelID)
-    elif 'tempest main justbrief' in msg: #for sending to Tempest main without them seeing my prompt
-        await post_just_brief(tempest_event_channelID)
-    elif 'testchannel justbrief' in msg: #for sending to testchannel
-        await post_just_brief(test_channelID)
-    elif 'testevents' in msg: 
-        briefresponse = await morning_brief(test_channelID)
-        await c_channel.send(briefresponse)
-    elif 'loadcontext now' in msg:
-        await load_context()
+    elif 'droidtest' in msg:
+
+        if 'testbrief' in msg:
+            post_morningbrief(test_channelID)
+            
+            print('task started')
+            #await post_morningbrief(test_channelID, reformat_response) #post the whole morning brief to the test channel
+        elif 'testalert' in msg:
+            response = await create_alert()
+            c_channel = client.get_channel(test_channelID)
+            await c_channel.send(response)
+        elif 'tempest eventchannel brief' in msg: #for sending to Tempest main without them seeing my prompt
+            await post_morningbrief(tempest_event_channelID)
+        elif 'tempest main justbrief' in msg: #for sending to Tempest main without them seeing my prompt
+            await post_just_brief(tempest_event_channelID)
+        elif 'testchannel justbrief' in msg: #for sending to testchannel
+            await post_just_brief(test_channelID)
+        elif 'testevents' in msg:
+            briefresponse = await morning_brief(test_channelID)
+            await c_channel.send(briefresponse)
+        elif 'loadcontext now' in msg:
+            await load_context()
+        elif 'shutdown message' in msg:
+            await post_shutdown_message(test_channelID)
+        elif 'startup message' in msg:
+            await post_startup_message(test_channelID)
+        elif 'testing' in msg:
+            await ingest_channel(tempest_main_channelID)
+    elif 'droidcommand' in msg:
+        if 'shutdown message' in msg:
+            await post_shutdown_message(tempest_main_channelID)
+        elif 'startup message' in msg:
+            await post_startup_message(tempest_main_channelID)
+        elif 'dontpostbrief' in msg:
+            user = message.author
+            print('brief turned off by ' + str(user))
+            postbrieftoggle = False
+        elif 'postbrief' in msg:
+            userID = message.author
+            print('brief turned on by ' + str(user))
+            postbrieftoggle = True
 
 
 client.run(TOKEN)

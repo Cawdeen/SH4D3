@@ -2,7 +2,8 @@
   "events": [
     {
       "type": "weekly",
-      "date": "2023-10-09T20:05:47.590Z",
+      "annualstartdate": "2023-01-01T00:00:00.000Z",
+      "annualenddate": "2023-01-01T00:00:00.000Z",
       "duration": "day",
       "weekday": "monday",
       "monthday": "",
@@ -14,7 +15,8 @@
     },
     {
       "type": "weekly",
-      "date": "2023-10-09T20:05:47.590Z",
+      "annualstartdate": "2023-01-01T00:00:00.000Z",
+      "annualenddate": "2023-01-01T00:00:00.000Z",
       "duration": "day",
       "weekday": "wednesday",
       "monthday": "",
@@ -26,7 +28,8 @@
     },
     {
       "type": "weekly",
-      "date": "2023-10-09T20:05:47.590Z",
+      "annualstartdate": "2023-01-01T00:00:00.000Z",
+      "annualenddate": "2023-01-01T00:00:00.000Z",
       "duration": "day",
       "weekday": "thursday",
       "monthday": "",
@@ -38,7 +41,8 @@
     },
     {
       "type": "monthly",
-      "date": "2023-10-09T20:05:47.590Z",
+      "annualstartdate": "2023-01-01T00:00:00.000Z",
+      "annualenddate": "2023-01-01T00:00:00.000Z",
       "duration": "day",
       "weekday": "",
       "monthday": "15",
@@ -46,11 +50,12 @@
       "location": "Mos Pelgo",
       "hosttype": "rp",
       "host": "Pelgo Utilities Commission",
-      "description": "A monthly street cleaning will be happening today in Mos Pelgo. The sands of the main roads will be combed to removed trash and debri. City structures will all have their stoops and steps swept off."
+      "description": "A monthly street cleaning will be happening today in Mos Pelgo. The sands of the main roads will be combed to removed trash and debri. City structures will all have their stoops and steps swept off. The town will be looking all spiffy."
     },
     {
       "type": "monthly",
-      "date": "2023-10-09T20:05:47.590Z",
+      "annualstartdate": "2023-01-01T00:00:00.000Z",
+      "annualenddate": "2023-01-01T00:00:00.000Z",
       "duration": "day",
       "weekday": "",
       "monthday": "8",
@@ -62,7 +67,8 @@
     },
     {
       "type": "monthly",
-      "date": "2023-10-09T20:05:47.590Z",
+      "annualstartdate": "2023-01-01T00:00:00.000Z",
+      "annualenddate": "2023-01-01T00:00:00.000Z",
       "duration": "day",
       "weekday": "",
       "monthday": "9",
@@ -74,7 +80,8 @@
     },
     {
       "type": "annual",
-      "date": "2023-10-01T00:00:00.000Z",
+      "annualstartdate": "2023-10-01T00:00:00.000Z",
+      "annualenddate": "2023-10-31T00:00:00.000Z",
       "duration": "month",
       "weekday": "",
       "monthday": "1",
@@ -86,7 +93,8 @@
     },
     {
       "type": "annual",
-      "date": "2023-07-23T00:00:00.000Z",
+      "annualstartdate": "2023-07-23T00:00:00.000Z",
+      "annualenddate": "2023-08-23T00:00:00.000Z",
       "duration": "month",
       "weekday": "",
       "monthday": "23",
@@ -98,7 +106,8 @@
     },
     {
       "type": "annual",
-      "date": "2023-12-01T00:00:00.000Z",
+      "annualstartdate": "2023-12-01T00:00:00.000Z",
+      "annualenddate": "2023-12-31T00:00:00.000Z",
       "duration": "month",
       "weekday": "",
       "monthday": "1",
@@ -110,7 +119,8 @@
     },
     {
       "type": "annual",
-      "date": "2023-02-01T00:00:00.000Z",
+      "annualstartdate": "2023-02-01T00:00:00.000Z",
+      "annualenddate": "2023-02-28T00:00:00.000Z",
       "duration": "month",
       "weekday": "",
       "monthday": "1",

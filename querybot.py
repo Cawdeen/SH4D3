@@ -1,4 +1,5 @@
 
+from datetime import datetime
 import openai
 import os
 from dotenv import load_dotenv
@@ -6,6 +7,7 @@ from llama_index.llms import OpenAI
 from llama_index import ServiceContext, set_global_service_context
 from llama_index import StorageContext, load_index_from_storage
 from llama_index.llms import OpenAI
+from pytz import timezone
 load_dotenv()
 
 class Querybot:
@@ -13,7 +15,13 @@ class Querybot:
     def __init__(self):
         OpenAI.api_key = os.getenv("OPENAI_API_KEY")
         #basic who are you prompt
-        self.startingprompt = "You are a droid named SH4D3 in a Star Wars video game. You're in Mos Pelgo, Tatooine. Be a little sarcastic, keep responses brief. Use emoji sparingly. Include some static and stuttering in your responses since you're a droid. "
+        today = datetime.now()
+        today = today.astimezone(timezone('US/Eastern'))
+        # Format the date as desired
+        formatted_date = today.strftime('%A, %b %d, %Y')
+
+        self.startingprompt = "You are a droid named SH4D3 in a Star Wars video game. You're in Mos Pelgo, Tatooine. Be a little sarcastic, keep responses brief. Use emoji sparingly. Include some static and stuttering in your responses since you're a droid. The date is " + formatted_date
+        print(self.startingprompt)
         ############################# openai
         #for openai API
         #openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -22,7 +30,7 @@ class Querybot:
         self.chat_countdown = 0 #countdown timer to reset chat in minutes
         self.chat_countdown_max = 45
         # define LLM
-        self.llm = OpenAI(model="gpt-3.5-turbo", temperature=0.6, max_tokens=900)
+        self.llm = OpenAI(model="gpt-3.5-turbo", temperature=0.6, max_tokens=400)
 
         # configure service context
         self.service_context = ServiceContext.from_defaults(llm=self.llm, chunk_size=900, chunk_overlap=20)
